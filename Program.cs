@@ -44,7 +44,7 @@ class Program
         Console.WriteLine($"Wynik całkowania: {IntegralSum}");
         Console.WriteLine($"Czas obliczeń: {stopwatch.ElapsedMilliseconds} ms");
 
-        PlotFunction(a, b, fileName);
+        PlotFunction(a, b, fileName, n);
 
         Console.WriteLine("Naciśnij dowolny klawisz, aby zakończyć...");
         Console.ReadKey();
@@ -55,15 +55,14 @@ class Program
         return Math.Pow(2, x);
     }
 
-    static void PlotFunction(double a, double b, string fileName)
+    static void PlotFunction(double a, double b, string fileName, int n)
     {
         var plt = new ScottPlot.Plot();
-        int points = 1000;
-        double[] xs = new double[points];
-        double[] ys = new double[points];
+        double[] xs = new double[n];
+        double[] ys = new double[n];
 
-        double step = (b - a) / (points - 1);
-        for (int i = 0; i < points; i++)
+        double step = (b - a) / (n - 1);
+        for (int i = 0; i < n; i++)
         {
             xs[i] = a + i * step;
             ys[i] = Function(xs[i]);
@@ -79,8 +78,8 @@ class Program
         {
             try
             {
-                plt.SavePng(fileName, 800, 600);
-                Console.WriteLine($"Wykres zapisano do pliku {fileName}");
+                plt.SavePng(fileName + ".png", 1920, 1080);
+                Console.WriteLine($"Wykres zapisano do pliku {fileName}.png");
                 success = true;
             }
             catch (IOException)
@@ -92,7 +91,7 @@ class Program
         
         try
         {
-            Process.Start(new ProcessStartInfo { FileName = fileName, UseShellExecute = true });
+            Process.Start(new ProcessStartInfo { FileName = fileName + ".png", UseShellExecute = true });
         }
         catch (Exception ex)
         {
